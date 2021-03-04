@@ -7,9 +7,9 @@ const modalTitle = document.querySelector('.modal-title');
 const modalBody = document.querySelector('.modal-body');
 const newListSubmit = document.querySelector('#new-list-submit');
 const newCardSubmit = document.querySelector('#new-card-submit');
-const closeModalBtn = document.querySelector('#modal-close');
+const closeModalBtns = document.querySelectorAll('.modal-close');
 const inputs = document.querySelectorAll('input[type="text"]');
-const modalError = document.querySelector('.modal-error');
+const modalError = document.querySelectorAll('.modal-error');
 
 const MODAL_CONTENT = Object.freeze({
     NEW_LIST: {
@@ -64,7 +64,10 @@ let data = [
     }
 ];
 
-const clearInputs = () => Object.keys(INPUTS).forEach(input => INPUTS[input] = '');
+const clearInputs = () => {
+    Object.keys(INPUTS).forEach(input => INPUTS[input] = '');
+    inputs.forEach(input => input.value = '');
+}
 
 const openModal = (modalContentElement, id) => {
     modal.classList.remove('display-none');
@@ -96,9 +99,11 @@ const createElementWithClasses = (classes, element = 'div') => {
     return newElement;
 }
 
-const createCloseElement = (classes, element = 'div') => {
-    const close = createElementWithClasses(['close']);
+const createCloseElement = (id, target, classes, element = 'div') => {
+    const close = createElementWithClasses(classes, element);
     close.innerText = '❌';
+    close.dataset.id = id;
+    close.dataset.target = target;
     return close;
 }
 
@@ -109,7 +114,7 @@ const createCard = ({ id, title, description }) => {
     const cardTitleWrapper = createElementWithClasses(['card-title-wrapper']);
     const cardTitle = createElementWithClasses(['card-title', 'text-dark']);
     const cardDescription = createElementWithClasses(['card-description', 'text-black']);
-    const close = createCloseElement(['close', 'close-card']);
+    const close = createCloseElement(id, 'close-card', ['close']);
 
     card.dataset.id = id;
     cardTitle.textContent = title;
@@ -128,7 +133,7 @@ const createList = ({ id, title, cards }) => {
     const columnTitleWrapper = createElementWithClasses(['column-title-wrapper']);
     const columnTitle = createElementWithClasses(['column-title', 'text-light']);
     const columnBody = createElementWithClasses(['column-body']);
-    const close = createCloseElement(['close', 'close-list']);
+    const close = createCloseElement(id, 'close-list', ['close']);
     const addCardBtn = createElementWithClasses(['button', 'button-light', 'text-primary', 'width-100']);
 
     column.dataset.id = id;
@@ -150,28 +155,38 @@ const createList = ({ id, title, cards }) => {
 
 const addNewCard = e => {
     if (!INPUTS['card-title'] || !INPUTS['card-description']) {
-        modalError.classList.remove('display-none');
+        modalError[1].classList.remove('display-none');
         return;
     }
 
     const newCard = { id: getRandomCardID(), title: INPUTS['card-title'], description: INPUTS['card-description'] };
     data = data.map(entry => entry.id === modal.dataset.id ? { ...entry, cards: [...entry.cards, newCard] } : entry);
+    modalError[1].classList.add('display-none');
     setDashboard(data);
-    clearInputs();
     closeModal();
 }
 
 const addNewList = () => {
     if (!INPUTS['list-title']) {
-        modalError.classList.remove('display-none');
+        modalError[0].classList.remove('display-none');
         return;
     }
 
     const newColumn = { id: getRandomColID(), title: INPUTS['list-title'], cards: [] };
     data = [...data, newColumn];
+    modalError[1].classList.add('display-none');
     setDashboard(data);
-    clearInputs();
     closeModal();
+}
+
+const removeList = id => {
+    data = data.filter(entry => entry.id !== id);
+    setDashboard(data);
+}
+
+const removeCard = id => {
+    data = data.map(entry => ({...entry, cards: entry.cards.filter(card => card.id !== id)}));
+    setDashboard(data);
 }
 
 const handleInputChange = e => {
@@ -196,13 +211,27 @@ modal.addEventListener('click', e => {
     closeModal();
 });
 
-closeModalBtn.addEventListener('click', closeModal);
+closeModalBtns.forEach(btn => btn.addEventListener('click', closeModal));
 
 inputs.forEach(input => input.addEventListener('change', handleInputChange));
 
 dashboard.addEventListener('click', e => {
-    if (e?.target?.dataset?.target !== 'add-card') return;
-    openModal(MODAL_CONTENT.NEW_CARD, e?.target?.dataset?.colID);
+    const target = e?.target?.dataset?.target, id = e?.target?.dataset?.id;
+    switch (target) {
+        case 'add-card': {
+            openModal(MODAL_CONTENT.NEW_CARD, e?.target?.dataset?.colID);
+            break;
+        }
+        case 'close-list': {
+            removeList(id);
+            break;
+        }
+        case 'close-card': {
+            removeCard(id);
+            break;
+        }
+        default: break;
+    }
 });
 
 newCardSubmit.addEventListener('click', addNewCard);
