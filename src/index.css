@@ -10,6 +10,7 @@
     --color-dark: #212121;
     --border-light: rgba(255, 255, 255, 0.1);
     --border-dark: rgba(0, 0, 0, 0.1);
+    --modal-bg: rgba(0, 0, 0, 0.5);
     --card-shadow: 0px 2px 1px -1px rgba(255, 255, 255, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
@@ -150,7 +151,18 @@ body {
     margin: 1rem;
     height: 1px;
     width: auto;
+}
+
+.divider-light {
     background-color: var(--border-light);
+}
+
+.divider-dark {
+    background-color: var(--border-dark);
+}
+
+.divider-theme {
+    background-color: #56419c1f;
 }
 
 .dashboard-wrapper {
@@ -222,4 +234,67 @@ body {
 .card-description {
     padding: 0.5rem;
     font-size: 0.95rem;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.modal {
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--modal-bg);
+}
+
+.modal-content {
+    opacity: 0;
+    min-width: 25%;
+    max-width: 80%;
+    min-height: 25%;
+    max-height: 80%;
+    background-color: var(--color-white);
+}
+
+.animate-modal {
+    animation: openModal 0.5s both;
+}
+
+.modal-title-wrapper {
+    padding: 0.75rem 1rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.modal-title {
+    flex: 1;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.close {
+    cursor: pointer;
+    font-size: 0.75rem;
+    transform: rotate(0);
+    transition: transform 0.15s;
+}
+
+.close:hover {
+    transform: rotate(90deg);
+}
+
+@keyframes openModal {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
