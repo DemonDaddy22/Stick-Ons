@@ -170,6 +170,14 @@ body {
     background-color: #56419c1f;
 }
 
+.font-small {
+    font-size: 0.75rem !important;
+}
+
+.font-large {
+    font-size: 1.5rem !important;
+}
+
 .dashboard-wrapper {
     flex: 1;
     position: relative;
@@ -236,7 +244,13 @@ body {
     border: 1px solid var(--border-light);
     box-shadow: var(--card-shadow);
     background-color: rgba(255, 255, 255, 0.9);
+    cursor: grab;
     /* animation: slideIntoView 0.25s ease-in-out forwards; */
+}
+
+.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
 }
 
 .card-title-wrapper {
