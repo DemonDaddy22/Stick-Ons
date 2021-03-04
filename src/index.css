@@ -172,11 +172,24 @@ body {
 
 .dashboard-wrapper {
     flex: 1;
+    position: relative;
     padding: 1rem 1rem 2rem;
     overflow-y: hidden;
     overflow-x: auto;
     display: flex;
     gap: 1rem;
+}
+
+.no-data {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    font-weight: 100;
+    font-size: 1.2rem;
+    text-align: center;
+    color:#dfdfdf;
 }
 
 .column-cards {

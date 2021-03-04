@@ -34,35 +34,7 @@ const getRandomColID = (offset = 1000) => `col-${getRandomID()}`;
 
 const getRandomCardID = (offset = 1000) => `card-${getRandomID()}`;
 
-let data = [
-    {
-        id: getRandomColID(),
-        title: 'Teams',
-        cards: [
-            {
-                id: getRandomCardID(),
-                title: 'Product',
-                description: '3 Pending tasks to be picked by Raj'
-            },
-            {
-                id: getRandomCardID(),
-                title: 'Sales',
-                description: 'Send proposal to Puneet for sales prices'
-            }
-        ]
-    },
-    {
-        id: getRandomColID(),
-        title: 'Products',
-        cards: [
-            {
-                id: getRandomCardID(),
-                title: 'VAT Testing',
-                description: 'Ask engg. to set up testing infra'
-            }
-        ]
-    }
-];
+let data = JSON.parse(localStorage.getItem('dashboard')) || [];
 
 const clearInputs = () => {
     Object.keys(INPUTS).forEach(input => INPUTS[input] = '');
@@ -161,6 +133,7 @@ const addNewCard = e => {
 
     const newCard = { id: getRandomCardID(), title: INPUTS['card-title'], description: INPUTS['card-description'] };
     data = data.map(entry => entry.id === modal.dataset.id ? { ...entry, cards: [...entry.cards, newCard] } : entry);
+    localStorage.setItem('dashboard', JSON.stringify(data));
     modalError[1].classList.add('display-none');
     setDashboard(data);
     closeModal();
@@ -174,6 +147,7 @@ const addNewList = () => {
 
     const newColumn = { id: getRandomColID(), title: INPUTS['list-title'], cards: [] };
     data = [...data, newColumn];
+    localStorage.setItem('dashboard', JSON.stringify(data));
     modalError[1].classList.add('display-none');
     setDashboard(data);
     closeModal();
@@ -181,11 +155,13 @@ const addNewList = () => {
 
 const removeList = id => {
     data = data.filter(entry => entry.id !== id);
+    localStorage.setItem('dashboard', JSON.stringify(data));
     setDashboard(data);
 }
 
 const removeCard = id => {
-    data = data.map(entry => ({...entry, cards: entry.cards.filter(card => card.id !== id)}));
+    data = data.map(entry => ({ ...entry, cards: entry.cards.filter(card => card.id !== id) }));
+    localStorage.setItem('dashboard', JSON.stringify(data));
     setDashboard(data);
 }
 
@@ -195,7 +171,9 @@ const handleInputChange = e => {
 }
 
 const setDashboard = data => {
-    dashboard.innerHTML = data.map(entry => createList(entry).outerHTML).join('');
+    dashboard.innerHTML = data.length
+        ? data.map(entry => createList(entry).outerHTML).join('')
+        : `<div class='no-data'>Your dashboard looks clean, make it messy by adding some lists 😃</div>`;
 }
 
 addListButton.addEventListener('click', () => openModal(MODAL_CONTENT.NEW_LIST));
