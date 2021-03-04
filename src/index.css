@@ -178,8 +178,8 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    min-width: 240px;
-    max-width: 240px;
+    min-width: 300px;
+    max-width: 300px;
     height: 100%;
     border-radius: 4px;
     border: 1px solid var(--border-dark);
@@ -225,6 +225,7 @@ body {
 }
 
 .card-title {
+    flex: 1;
     white-space: pre-wrap;
     word-wrap: break-word;
     font-weight: 500;
@@ -233,7 +234,7 @@ body {
 
 .card-description {
     padding: 0.5rem;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .display-none {
@@ -256,11 +257,18 @@ body {
 
 .modal-content {
     opacity: 0;
-    min-width: 25%;
+    min-width: 40%;
     max-width: 80%;
     min-height: 25%;
     max-height: 80%;
+    display: flex;
+    flex-direction: column;
     background-color: var(--color-white);
+}
+
+.modal-content-new-list {
+    min-width: 30% !important;
+    min-height: 20% !important;
 }
 
 .animate-modal {
@@ -279,15 +287,64 @@ body {
     font-weight: 500;
 }
 
+.modal-body {
+    flex: 1;
+    padding: 0 0.75rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.modal-error {
+    color: #ad2134;
+    font-size: 0.6rem;
+    padding: 0 0.75rem 0.75rem;
+}
+
 .close {
     cursor: pointer;
-    font-size: 0.75rem;
+    font-size: 0.6rem;
     transform: rotate(0);
     transition: transform 0.15s;
 }
 
 .close:hover {
     transform: rotate(90deg);
+}
+
+.submit-wrapper {
+    padding: 0 1rem 0.75rem;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row label {
+    font-size: 0.9rem;
+    letter-spacing: -0.2px;
+    margin-bottom: 0.25rem;
+}
+
+.form-row input[type='text'] {
+    outline: none;
+    padding: 0.75rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #56419c7f;
+    color: var(--color-theme);
+    transition: border 0.15s;
+}
+
+.form-row input[type='text']:hover, .form-row input[type='text']:focus {
+    outline: none;
+    border-color: #56419c;
+}
+
+.form-row input[type='text']::placeholder {
+    color: #56419c7f;
 }
 
 @keyframes openModal {

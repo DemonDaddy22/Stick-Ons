@@ -23,17 +23,20 @@
             <div class="column-cards">
                 <div class="column-title-wrapper">
                     <div class="column-title text-light">Teams</div>
+                    <div class="close">❌</div>
                 </div>
                 <div class="column-body">
                     <div class="card">
                         <div class="card-title-wrapper">
                             <div class="card-title text-dark">Product</div>
+                            <div class="close">❌</div>
                         </div>
                         <div class="card-description text-black">3 Pending tasks to be picked by Raj</div>
                     </div>
                     <div class="card">
                         <div class="card-title-wrapper">
                             <div class="card-title text-dark">Sales</div>
+                            <div class="close">❌</div>
                         </div>
                         <div class="card-description text-black">Send proposal to Puneet for sales prices</div>
                     </div>
@@ -47,19 +50,52 @@
                     <div class="card">
                         <div class="card-title-wrapper">
                             <div class="card-title text-dark">VAT Testing</div>
+                            <div class="close">❌</div>
                         </div>
                         <div class="card-description text-black">Ask engg. to set up testing infra</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal display-none">
-            <div class="modal-content">
+        <div class="modal display-none" data-target="">
+            <div class="modal-content modal-content-new-list display-none">
                 <div class="modal-title-wrapper">
                     <div class="modal-title text-primary">Create new list</div>
                     <div id="modal-close" class="close">❌</div>
                 </div>
                 <div class="divider divider-theme"></div>
+                <div class="modal-error display-none">Please fill all the details</div>
+                <div class="modal-body">
+                    <div class="form-row text-primary">
+                        <label for="list-title">List Title</label>
+                        <input id="list-title" type="text" name="list-title" placeholder="eg. Tasks for today">
+                    </div>
+                </div>
+                <div class="divider divider-theme"></div>
+                <div class="submit-wrapper">
+                    <div id="new-list-submit" class="button button-primary text-white">Submit</div>
+                </div>
+            </div>
+            <div class="modal-content modal-content-new-card display-none">
+                <div class="modal-title-wrapper">
+                    <div class="modal-title text-primary">Create new card</div>
+                    <div id="modal-close" class="close">❌</div>
+                </div>
+                <div class="divider divider-theme"></div>
+                <div class="modal-body">
+                    <div class="form-row text-primary">
+                        <label for="card-title">Card Title</label>
+                        <input id="card-title" type="text" name="card-title" placeholder="eg. Meeting">
+                    </div>
+                    <div class="form-row text-primary">
+                        <label for="card-title">Card Description</label>
+                        <input id="card-description" type="text" name="card-description" placeholder="eg. Set up a meeting to close the contracts">
+                    </div>
+                </div>
+                <div class="divider divider-theme"></div>
+                <div class="submit-wrapper">
+                    <div id="new-card-submit" class="button button-primary text-white">Submit</div>
+                </div>
             </div>
         </div>
         <script type="text/javascript" src="./index.js"></script>
